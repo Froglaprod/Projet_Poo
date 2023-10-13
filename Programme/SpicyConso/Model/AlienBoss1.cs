@@ -19,5 +19,38 @@ namespace Model
             this.y = y;
             this.hpDefault = hpDefault;
         }
+
+        /// <summary>
+        /// On bouge a droite de 1, et dés qu'on arrive a la fin de la fenetre on chnage de sens
+        /// </summary>
+        public override void moveRight()
+        {
+            if (invaderDirection)
+            {
+                this.x += 1;
+
+                if (this.x == Console.WindowWidth - 32)
+                {
+                    invaderDirection = false;
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// On bouge a gauche de 1, et dés qu'on arrive a la fin de la fenetre on change de sens
+        /// </summary>
+        public override void moveLeft()
+        {
+            if (!invaderDirection)
+            {
+                this.x -= 1;
+
+                if (this.x == 1)
+                {
+                    invaderDirection = true;
+                }
+            }
+        }
     }
 }

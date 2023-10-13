@@ -2,8 +2,8 @@
 using Model;
 using Storage;
 
-bool SelectJouer = false;
-bool alienspawn = false;
+bool SelectJouer = false;// Savoir si on a sélectionner jouer
+bool alienspawn = false;// Savoir si les aliens onz spawn
 bool GameStart = false;//Si la partie a commencé ou non
 bool MenuEndDiplay = false;//Si on affiche game over ou non
 bool GameLooseEND = false;//Si la partie perdu est fini ou non
@@ -13,7 +13,7 @@ uint frameNumber = 0; // Comptage du nombre d'images à affichées
 int manche = 1;
 Playground.Init();// Initialisation de la config playground
 
-
+Random random = new Random();// Instancie le random
 List<missileJoueur> missileJoueur = new List<missileJoueur>();
 List<missileAlien> missileAlien = new List<missileAlien>();
 List<Alien> aliensDefault = new List<Alien>();
@@ -35,8 +35,13 @@ for (int i = 0; i < 2; i++)
 while (true)
 {
     ConsoleKeyInfo keyPressed = Console.ReadKey(true);
+
     switch (keyPressed.Key)
     {
+        case ConsoleKey.Escape:
+
+            break;
+
         case ConsoleKey.W:
             if (Menu.SousMenu < 3)
             {
@@ -59,6 +64,7 @@ while (true)
 
             break;
     }
+
 
     ConsoleColor defaultColor = Console.ForegroundColor;
 
@@ -106,7 +112,7 @@ while (SelectJouer)
 
     if (!alienspawn)
     {
-        if(manche != 2)
+        if (manche != 10)
         {
             //Nombre d'invaders à créer
             for (int i = 0; i < 8; i++)
@@ -115,12 +121,12 @@ while (SelectJouer)
                 aliensDefault.Add(invader);
             }
         }
-        
+
 
         //Apparition du boss
-        if (manche == 2)
+        if (manche == 10)
         {
-            boss1 = new AlienBoss1(Console.WindowWidth / 3, 5, 500);
+            boss1 = new AlienBoss1(Console.WindowWidth / 2 - 16, 5, 500);
         }
 
         alienspawn = true;
@@ -198,12 +204,16 @@ while (SelectJouer)
                 Playground.DrawMissileAlien(missileAlienDefault, player);// Affichage du missile de l'alien
             }
         }
-        if (manche == 2)
+        if (manche == 10)
         {
-            Playground.DrawBOSSeasy(boss1);
+            Playground.DrawBOSSeasy(boss1);//Affichage du boss
+
+            foreach (missileAlien missileAlienDefault in missileAlien)
+            {
+                
+                Playground.DrawMissileBoss(missileAlienDefault, player);// Affichage du missile de l'alien
+            }
         }
-
-
     }
 
     frameNumber++;
@@ -216,6 +226,17 @@ while (SelectJouer)
             invader.moveLeft();//Déplacement alien gauche
         }
     }
+
+    if (manche == 10)//Déplacement du boss lors de la manche 2
+    {
+        if (frameNumber % 15 == 0)//Vitesse du boss1
+        {
+            boss1.moveRight();
+            boss1.moveLeft();
+        }
+    }
+
+
 
     for (int i = missileJoueur.Count - 1; i >= 0; i--)//Boucle qui parcours ma liste de missile a l'envers 
     {
@@ -234,7 +255,7 @@ while (SelectJouer)
         }
     }
 
-    for (int i = missileJoueur.Count - 1; i >= 0; i--)
+    for (int i = missileJoueur.Count - 1; i >= 0; i--)//Boucle qui parcours ma liste des missiles
     {
         missileJoueur missileDefault = missileJoueur[i];
 
@@ -249,6 +270,26 @@ while (SelectJouer)
         }
     }
 
+    if (manche == 10)
+    {
+        for (int i = missileJoueur.Count - 1; i >= 0; i--)//Boucle qui parcours ma liste des missiles
+        {
+            missileJoueur missileDefault = missileJoueur[i];
+
+            foreach (Alien invader in aliensDefault)
+            {
+                boss1.TakeDamage(missileDefault); // Dégat du missile sur le boss
+            }
+
+            if (missileDefault.missileIsTouched)
+            {
+                missileJoueur.RemoveAt(i);
+            }
+        }
+    }
+
+    
+
     for (int i = aliensDefault.Count - 1; i >= 0; i--)//Boucle qui parcours ma liste des aliens à l'envers 
     {
         Alien invader = aliensDefault[i];
@@ -259,11 +300,20 @@ while (SelectJouer)
             Store.score += 23;
         }
 
+        if (aliensDefault.Count == 0)//Savoir si le joueur gagne la partie
+        {
+
+            alienspawn = false;
+            manche++;
+
+            if (manche == 100)
+            {
+                GameWinEND = true;
+            }
+        }
+
     }
 
-
-
-    Random random = new Random(); // Instancie le random
 
     foreach (Alien invader in aliensDefault)
     {
@@ -281,6 +331,25 @@ while (SelectJouer)
 
     }
 
+    if (manche == 10)
+    {
+
+        if (frameNumber % 20 == 0) // Vitesse avant qu'un autre missile soit tiré
+        {
+            if (random.Next(0, 100) < 20) //Tire aléatoire de l'alien avec une probabilité de 20%
+            {
+                missileAlien missileAlienDefault = new missileAlien(25);
+                missileAlien.Add(missileAlienDefault);
+
+                boss1.chargementAlien(missileAlienDefault);
+                boss1.dropMissileAlien();
+            }
+        }
+
+
+    }
+
+
 
     for (int i = missileAlien.Count - 1; i >= 0; i--)//Boucle qui parcours ma liste de missile a l'envers 
     {
@@ -294,16 +363,6 @@ while (SelectJouer)
             {
                 missileAlien.RemoveAt(i);
 
-                if (aliensDefault.Count == 0)//Savoir si le joueur gagne la partie
-                {
-                    manche++;
-                    alienspawn = false;
-
-                    if (manche == 100)
-                    {
-                        GameWinEND = true;
-                    }
-                }
             }
 
         }

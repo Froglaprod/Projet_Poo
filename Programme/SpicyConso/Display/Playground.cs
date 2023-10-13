@@ -51,24 +51,23 @@ namespace Display
 
         //Forme de l'invaders
         public static string[] BOSSEASY = {
-   "    _                      _______                      _",
-    "  _dMMMb._              .adOOOOOOOOOba.              _,dMMMb_",
-    " dP'  ~YMMb            dOOOOOOOOOOOOOOOb            aMMP~  `Yb",
-    " V      ~\"Mb          dOOOOOOOOOOOOOOOOOb          dM\"~      V",
-    "          `Mb.       dOOOOOOOOOOOOOOOOOOOb       ,dM'",
-    "           `YMb._   |OOOOOOOOOOOOOOOOOOOOO|   _,dMP'",
-    "      __     `YMMM| OP'~\"YOOOOOOOOOOOP\"~`YO |MMMP'     __",
-    "    ,dMMMb.     ~~' OO     `YOOOOOP'     OO `~~     ,dMMMb.",
-    " _,dP~  `YMba_      OOb      `OOO'      dOO      _aMMP'  ~Yb._",
-    "             `YMMMM\\`OOOo     OOO     oOOO'/MMMMP'",
-    "     ,aa.     `~YMMb `OOOb._,dOOOb._,dOOO'dMMP~'       ,aa.",
-    "   ,dMYYMba._         `OOOOOOOOOOOOOOOOO'          _,adMYYMb.",
-    "  ,MP'   `YMMba._      OOOOOOOOOOOOOOOOO       _,adMMP'   `YM.",
-    "  MP'        ~YMMMba._ YOOOOPVVVVVYOOOOP  _,adMMMMP~       `YM",
-    "  YMb           ~YMMMM\\`OOOOI`````IOOOOO'/MMMMP~           dMP",
-    "   `Mb.           `YMMMb`OOOI,,,,,IOOOO'dMMMP'           ,dM'",
-    "     `'                  `OObNNNNNdOO'                   `'",
-    "                           `~OOOOO~'         "
+"              _____            ",
+    "           ,-\"     \"-.",
+    "          /  o       o \\",
+    "         /    \\     /   \\",
+    "        /      )-\"-(     \\",
+    "       /      ( 6 6 )     \\",
+    "      /        \\ \" /       \\",
+    "     /          )=(         \\",
+    "    /    o   .--\"-\"--.   o   \\",
+    "   /     I  /  -   -  \\  I    \\",
+    ".--(    (_}y/\\       /\\y{_)    )--.",
+    "(   \".___l\\/__\\_____/__\\/l___,\"  )",
+    " \\                                /",
+    "  \"-._      o O o O o O o      _,-",
+    "      `--Y--.___________.--Y--'",
+    "        |==.___________.==| ",
+    "        `==.___________.==' "
        };
 
         public static string[] Cthree = {
@@ -248,6 +247,22 @@ namespace Display
             {
                 if (MISSILE == null) return;
                 Console.SetCursorPosition(missile.x + 6, missile.y + 4);
+                Console.WriteLine(MISSILE);
+            }
+
+        }
+
+        /// <summary>
+        /// On affiche la forme du missile de l'alien
+        /// </summary>
+        /// <param name="missile"></param>
+        /// <param name="alien"></param>
+        public static void DrawMissileBoss(missileAlien missile, Player player)
+        {
+            if (missile.missileIsLaunched)
+            {
+                if (MISSILE == null) return;
+                Console.SetCursorPosition(missile.x + 16, missile.y);
                 Console.WriteLine(MISSILE);
             }
 
