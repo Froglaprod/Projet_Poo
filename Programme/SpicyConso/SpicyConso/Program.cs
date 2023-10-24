@@ -1,13 +1,12 @@
 ﻿using Display;
 using Model;
-using Storage;
 
+
+//Savoir si on relance ou non
 bool replay = true;
-
-
 do
 {
-
+    bool SelectScore = false; // Savoir si on a sélectionné score
     bool SelectJouer = false; // Savoir si on a sélectionné jouer
     bool alienspawn = false; // Savoir si les aliens ont spawn
     bool GameStart = false; // Si la partie a commencé ou non
@@ -63,6 +62,11 @@ do
                 {
                     SelectJouer = true;
                 }
+
+                if (Menu.SousMenu == 2)
+                {
+                    SelectScore = true;
+                }
                 break;
         }
 
@@ -98,6 +102,12 @@ do
             Playground.Clear();
             break;
         }
+    }
+
+    while (SelectScore)
+    {
+        Playground.Clear();
+        Store.StoreData();
     }
 
     // Affichage du décompte
@@ -388,6 +398,7 @@ do
                 Playground.Clear();
                 MenuWin.DrawBackgroundWin(); // Afficher le fond du menu
                 Playground.DrawScore(Store.score);
+                Console.SetCursorPosition(Console.WindowWidth / 2, Console.WindowHeight / 2);
                 Console.WriteLine("Appuyez sur 'R' pour rejouer, ou 'Q' pour Quitter");
                 MenuEndDiplay = true;
             }
@@ -419,9 +430,9 @@ do
                 player = new Player(Console.WindowWidth / 2 - 5, Console.WindowHeight - 5, 150);
                 boss1 = null;
                 Store.score = 0;
-                SelectJouer = false; // Savoir si on a sélectionné jouer
-                GameLooseEND = false; // Si la partie perdue est finie ou non
-                GameWinEND = false; // Si la partie est gagnée finie ou non
+                SelectJouer = false; 
+                GameLooseEND = false; 
+                GameWinEND = false; 
             }
         }
 
@@ -433,16 +444,19 @@ do
                 Playground.Clear();
                 MenuGameOver.DrawBackgrounGamOver(); // Afficher le fond du menu
                 Playground.DrawScore(Store.score);
+                Console.SetCursorPosition(Console.WindowWidth / 2 , Console.WindowHeight /  2);
                 Console.WriteLine("Appuyez sur 'R' pour rejouer, ou 'Q' pour Quitter");
                 MenuEndDiplay = true;
             }
 
             ConsoleKeyInfo touche = Console.ReadKey();
 
+            //Touche pour relancer la partie
             if (touche.Key == ConsoleKey.R)
             {
                 replay = true;
             }
+            //Touche pour quitter le jeu
             else if (touche.Key == ConsoleKey.Q)
             {
                 replay = false;
@@ -464,9 +478,9 @@ do
                 player = new Player(Console.WindowWidth / 2 - 5, Console.WindowHeight - 5, 150);
                 boss1 = null;
                 Store.score = 0;
-                SelectJouer = false; // Savoir si on a sélectionné jouer
-                GameLooseEND = false; // Si la partie perdue est finie ou non
-                GameWinEND = false; // Si la partie est gagnée finie ou non
+                SelectJouer = false; 
+                GameLooseEND = false; 
+                GameWinEND = false; 
             }
         }
     }
