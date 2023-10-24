@@ -2,10 +2,13 @@
 using Model;
 
 
-//Savoir si on relance ou non
-bool replay = true;
+//Savoir si on continuer de jouer
+bool play = true;
 do
 {
+    bool replay = false;//Savoir si on relance ou non
+    int SousMenu = 4;
+    bool SelectSave = false;
     bool SelectScore = false; // Savoir si on a sélectionné score
     bool SelectJouer = false; // Savoir si on a sélectionné jouer
     bool alienspawn = false; // Savoir si les aliens ont spawn
@@ -36,46 +39,12 @@ do
     // Menu principal
     while (true)
     {
-        ConsoleKeyInfo keyPressed = Console.ReadKey(true);
-
-        switch (keyPressed.Key)
-        {
-            case ConsoleKey.Escape:
-                break;
-
-            case ConsoleKey.W:
-                if (Menu.SousMenu < 3)
-                {
-                    Menu.SousMenu++;
-                }
-                break;
-
-            case ConsoleKey.S:
-                if (Menu.SousMenu > 1)
-                {
-                    Menu.SousMenu--;
-                }
-                break;
-
-            case ConsoleKey.Enter:
-                if (Menu.SousMenu == 3)
-                {
-                    SelectJouer = true;
-                }
-
-                if (Menu.SousMenu == 2)
-                {
-                    SelectScore = true;
-                }
-                break;
-        }
-
         ConsoleColor defaultColor = Console.ForegroundColor;
 
         // Affichage du Menu principal
         Menu.DrawTitre();
 
-        if (Menu.SousMenu == 3)
+        if (SousMenu == 3)
         {
             Console.ForegroundColor = ConsoleColor.Blue;
         }
@@ -83,14 +52,14 @@ do
         Menu.DrawJouer();
         Console.ForegroundColor = defaultColor;
 
-        if (Menu.SousMenu == 2)
+        if (SousMenu == 2)
         {
             Console.ForegroundColor = ConsoleColor.Blue;
         }
         Menu.DrawScore();
         Console.ForegroundColor = defaultColor;
 
-        if (Menu.SousMenu == 1)
+        if (SousMenu == 1)
         {
             Console.ForegroundColor = ConsoleColor.Blue;
         }
@@ -101,6 +70,40 @@ do
         {
             Playground.Clear();
             break;
+        }
+
+        ConsoleKeyInfo keyPressed = Console.ReadKey(true);
+
+        switch (keyPressed.Key)
+        {
+            case ConsoleKey.Escape:
+                break;
+
+            case ConsoleKey.W:
+                if (SousMenu < 3)
+                {
+                    SousMenu++;
+                }
+                break;
+
+            case ConsoleKey.S:
+                if (SousMenu > 1)
+                {
+                    SousMenu--;
+                }
+                break;
+
+            case ConsoleKey.Enter:
+                if (SousMenu == 3)
+                {
+                    SelectJouer = true;
+                }
+
+                if (SousMenu == 2)
+                {
+                    SelectScore = true;
+                }
+                break;
         }
     }
 
@@ -393,26 +396,83 @@ do
         // Menu partie gagnée
         while (GameWinEND)
         {
-            if (!MenuEndDiplay)
+            ConsoleColor defaultColor = ConsoleColor.DarkGreen;
+            Console.ForegroundColor = defaultColor;
+
+            ConsoleKeyInfo keyPressed = Console.ReadKey(true);
+
+            Playground.Clear();
+            Playground.DrawScore(Store.score);
+
+
+
+            switch (keyPressed.Key)
+            {
+
+                case ConsoleKey.W:
+                    if (SousMenu < 3)
+                    {
+                        SousMenu++;
+                    }
+                    break;
+
+                case ConsoleKey.S:
+                    if (SousMenu > 1)
+                    {
+                        SousMenu--;
+                    }
+                    break;
+
+                case ConsoleKey.Enter:
+                    if (SousMenu == 3)
+                    {
+                        SelectSave = true;
+                    }
+
+                    if (SousMenu == 2)
+                    {
+                        replay = true;
+                    }
+
+                    if (SousMenu == 1)
+                    {
+                        replay = false;
+                        Environment.Exit(0);
+                    }
+                    break;
+            }
+
+
+            // Affichage du Menu principal
+            MenuGameOver.DrawBackgrounGamOver();
+
+            if (SousMenu == 3)
+            {
+                Console.ForegroundColor = ConsoleColor.Blue;
+            }
+
+            MenuGameOver.DrawSave();
+            Console.ForegroundColor = defaultColor;
+
+            if (SousMenu == 2)
+            {
+                Console.ForegroundColor = ConsoleColor.Blue;
+            }
+            MenuGameOver.DrawReplay();
+            Console.ForegroundColor = defaultColor;
+
+            if (SousMenu == 1)
+            {
+                Console.ForegroundColor = ConsoleColor.Blue;
+            }
+            MenuGameOver.DrawQuit();
+            Console.ForegroundColor = defaultColor;
+
+            if (SelectSave)
             {
                 Playground.Clear();
-                MenuWin.DrawBackgroundWin(); // Afficher le fond du menu
-                Playground.DrawScore(Store.score);
-                Console.SetCursorPosition(Console.WindowWidth / 2, Console.WindowHeight / 2);
-                Console.WriteLine("Appuyez sur 'R' pour rejouer, ou 'Q' pour Quitter");
-                MenuEndDiplay = true;
-            }
-
-            ConsoleKeyInfo touche = Console.ReadKey();
-
-            if (touche.Key == ConsoleKey.R)
-            {
-                replay = true;
-            }
-            else if (touche.Key == ConsoleKey.Q)
-            {
-                replay = false;
-                Environment.Exit(0);
+                Console.ResetColor();
+                break;
             }
 
             if (replay)
@@ -430,37 +490,92 @@ do
                 player = new Player(Console.WindowWidth / 2 - 5, Console.WindowHeight - 5, 150);
                 boss1 = null;
                 Store.score = 0;
-                SelectJouer = false; 
-                GameLooseEND = false; 
-                GameWinEND = false; 
+                SelectJouer = false;
+                GameLooseEND = false;
+                GameWinEND = false;
             }
         }
 
         // Menu partie perdue
         while (GameLooseEND)
         {
-            if (!MenuEndDiplay)
+            ConsoleColor defaultColor = ConsoleColor.DarkRed;
+            Console.ForegroundColor = defaultColor;
+
+            ConsoleKeyInfo keyPressed = Console.ReadKey(true);
+
+            Playground.Clear();
+            Playground.DrawScore(Store.score);
+
+            
+
+            switch (keyPressed.Key)
+            {
+
+                case ConsoleKey.W:
+                    if (SousMenu < 3)
+                    {
+                        SousMenu++;
+                    }
+                    break;
+
+                case ConsoleKey.S:
+                    if (SousMenu > 1)
+                    {
+                        SousMenu--;
+                    }
+                    break;
+
+                case ConsoleKey.Enter:
+                    if (SousMenu == 3)
+                    {
+                        SelectSave = true;
+                    }
+
+                    if (SousMenu == 2)
+                    {
+                        replay = true;
+                    }
+
+                    if (SousMenu == 1)
+                    {
+                        replay = false;
+                        Environment.Exit(0);
+                    }
+                    break;
+            }
+
+
+            // Affichage du Menu principal
+            MenuGameOver.DrawBackgrounGamOver();
+
+            if (SousMenu == 3)
+            {
+                Console.ForegroundColor = ConsoleColor.Blue;
+            }
+
+            MenuGameOver.DrawSave();
+            Console.ForegroundColor = defaultColor;
+
+            if (SousMenu == 2)
+            {
+                Console.ForegroundColor = ConsoleColor.Blue;
+            }
+            MenuGameOver.DrawReplay();
+            Console.ForegroundColor = defaultColor;
+
+            if (SousMenu == 1)
+            {
+                Console.ForegroundColor = ConsoleColor.Blue;
+            }
+            MenuGameOver.DrawQuit();
+            Console.ForegroundColor = defaultColor;
+
+            if (SelectSave)
             {
                 Playground.Clear();
-                MenuGameOver.DrawBackgrounGamOver(); // Afficher le fond du menu
-                Playground.DrawScore(Store.score);
-                Console.SetCursorPosition(Console.WindowWidth / 2 , Console.WindowHeight /  2);
-                Console.WriteLine("Appuyez sur 'R' pour rejouer, ou 'Q' pour Quitter");
-                MenuEndDiplay = true;
-            }
-
-            ConsoleKeyInfo touche = Console.ReadKey();
-
-            //Touche pour relancer la partie
-            if (touche.Key == ConsoleKey.R)
-            {
-                replay = true;
-            }
-            //Touche pour quitter le jeu
-            else if (touche.Key == ConsoleKey.Q)
-            {
-                replay = false;
-                Environment.Exit(0);
+                Console.ResetColor();
+                break;
             }
 
             if (replay)
@@ -478,11 +593,22 @@ do
                 player = new Player(Console.WindowWidth / 2 - 5, Console.WindowHeight - 5, 150);
                 boss1 = null;
                 Store.score = 0;
-                SelectJouer = false; 
-                GameLooseEND = false; 
-                GameWinEND = false; 
+                SelectJouer = false;
+                GameLooseEND = false;
+                GameWinEND = false;
             }
+
+        }
+
+        while (SelectSave)
+        {
+            MenuGameOver.DrawSave();//Affichage du titre
+            Console.SetCursorPosition(Console.WindowWidth / 3 + 14, 20);
+            Console.WriteLine("Partie terminée. Entrez votre pseudo :");
+
+            Store.SaveScore();
+
         }
     }
 }
-while (replay);
+while (play);

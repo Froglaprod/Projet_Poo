@@ -2,7 +2,7 @@
 {
     public class Menu
     {
-        public static int SousMenu = 4;
+        
 
         public static string[] TITRE =
         {
