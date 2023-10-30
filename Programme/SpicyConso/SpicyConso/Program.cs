@@ -4,7 +4,8 @@ using Model;
 
 //Savoir si on continuer de jouer
 bool play = true;
-do
+
+do// Boucle qui englobe tout le programme
 {
     bool replay = false;//Savoir si on relance ou non
     int SousMenu = 4;
@@ -611,6 +612,7 @@ do
 
         }
 
+        // Menu Save
         while (SelectSave)
         {
             MenuGameOver.DrawSave();//Affichage du titre

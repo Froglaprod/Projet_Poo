@@ -1,41 +1,37 @@
-﻿using Model;
-using MySql.Data.MySqlClient;
-using System.Diagnostics;
+﻿using MySql.Data.MySqlClient;
 
 public class Store
 {
     // Stocke le score du joueur
     public static int score = 0;
+    // Position y de l'affichage des joueurs
+    public static int y = 12;
     // Permet de se connecter au serveur
     public static string connexionDb = "Server=localhost;Port=6033;Database=db_space_invaders;User=root;Password=root;";
     // Requêtes pour sélectionner les meilleurs joueurs
     public static string sqlQuery = "SELECT * FROM t_joueur ORDER BY jouNombrePoints DESC LIMIT 5;";
     // Requêtes pour insert le score du joueur
     public static string insertQuery = "INSERT INTO t_joueur (jouPseudo, jouNombrePoints) VALUES (@pseudo, @score)";
-    // Position y de l'affichage des joueurs
-    public static int y = 12;
 
-    public static void StoreAlien(Alien alien)
-    {
-        Debug.WriteLine("C'est dans la db que je mets " + alien.ToString());
-    }
 
     /// <summary>
     /// On affiche sélectionnent les données voulu et on affiche les 5 meilleur joueurs 
     /// </summary>
     public static void StoreData()
     {
-        // Connexion à la base de données
+        // Utilise l'instruction using MySqlConnection, pour se connecter à la db
         using (MySqlConnection connexion = new MySqlConnection(connexionDb))
         {
+            //Ouverture de la connexion
             connexion.Open();
 
-            // Récupère les données des colonnes
+            // Utilise l'instruction using MySqlCommand, pour éxecuter des commandes
             using (MySqlCommand cmd = new MySqlCommand(sqlQuery, connexion))
             {
 
                 using (MySqlDataReader select = cmd.ExecuteReader())
                 {
+                    // Récupère les données des colonnes
                     while (select.Read())
                     {
                         int id = select.GetInt32("idJoueur");
@@ -62,21 +58,23 @@ public class Store
     public static void SaveScore()
     {
         Console.SetCursorPosition(Console.WindowWidth / 3 + 14, 23);
-        //Pseudo que le joueur entre
+        // Pseudo que le joueur entre
         string pseudo = Console.ReadLine();
 
         // On regarde si le pseudo est vide
         if (!string.IsNullOrEmpty(pseudo))
         {
 
-            // Connexion à la base de données
+            // Utilise l'instruction using MySqlConnection, pour se connecter à la db
             using (MySqlConnection connexion = new MySqlConnection(connexionDb))
             {
+                //Ouverture de la connexion
                 connexion.Open();
 
-                // Insert du score et du pseudo dans la base de données
+                // Utilise l'instruction using MySqlCommand, pour éxecuter des commandes 
                 using (MySqlCommand cmd = new MySqlCommand(insertQuery, connexion))
                 {
+                    //Insert du score et du pseudo dans la base de données
                     cmd.Parameters.AddWithValue("@pseudo", pseudo);
                     cmd.Parameters.AddWithValue("@score", score);
 
