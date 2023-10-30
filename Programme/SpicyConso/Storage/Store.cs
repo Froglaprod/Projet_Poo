@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Model;
+﻿using Model;
 using MySql.Data.MySqlClient;
+using System.Diagnostics;
 
 public class Store
 {
@@ -38,7 +33,7 @@ public class Store
             // Récupère les données des colonnes
             using (MySqlCommand cmd = new MySqlCommand(sqlQuery, connexion))
             {
-                
+
                 using (MySqlDataReader select = cmd.ExecuteReader())
                 {
                     while (select.Read())
@@ -56,6 +51,7 @@ public class Store
                 }
             }
 
+            //Fermeture de la connexion
             connexion.Close();
         }
     }
@@ -64,42 +60,43 @@ public class Store
     /// On stock le score du joueur et son pseudo dans la base de données
     /// </summary>
     public static void SaveScore()
-        {
+    {
         Console.SetCursorPosition(Console.WindowWidth / 3 + 14, 23);
         //Pseudo que le joueur entre
         string pseudo = Console.ReadLine();
 
-            // On regarde si le pseudo est vide
-            if (!string.IsNullOrEmpty(pseudo))
+        // On regarde si le pseudo est vide
+        if (!string.IsNullOrEmpty(pseudo))
+        {
+
+            // Connexion à la base de données
+            using (MySqlConnection connexion = new MySqlConnection(connexionDb))
             {
+                connexion.Open();
 
-                // Connexion à la base de données
-                using (MySqlConnection connexion = new MySqlConnection(connexionDb))
+                // Insert du score et du pseudo dans la base de données
+                using (MySqlCommand cmd = new MySqlCommand(insertQuery, connexion))
                 {
-                    connexion.Open();
+                    cmd.Parameters.AddWithValue("@pseudo", pseudo);
+                    cmd.Parameters.AddWithValue("@score", score);
 
-                    // Insert du score et du pseudo dans la base de données
-                    using (MySqlCommand cmd = new MySqlCommand(insertQuery, connexion))
-                    {
-                        cmd.Parameters.AddWithValue("@pseudo", pseudo);
-                        cmd.Parameters.AddWithValue("@score", score);
-
-                        cmd.ExecuteNonQuery();
+                    cmd.ExecuteNonQuery();
 
                     //Affichage message de réussite 
                     Console.SetCursorPosition(Console.WindowWidth / 3 + 8, 20);
                     Console.WriteLine($"Score de {score} sauvegardé pour {pseudo}.");
 
-                    }
-                     connexion.Close();
                 }
+                //Fermeture de la connexion
+                connexion.Close();
             }
+        }
 
         //Affichage message d'erreur
         else
         {
             Console.SetCursorPosition(Console.WindowWidth / 3 + 8, 22);
             Console.WriteLine("Pseudo non valide. Le score ne sera pas sauvegardé.");
-            }
         }
+    }
 }
