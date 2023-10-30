@@ -19,11 +19,15 @@ public class Store
     public static string insertQuery = "INSERT INTO t_joueur (jouPseudo, jouNombrePoints) VALUES (@pseudo, @score)";
     // Position y de l'affichage des joueurs
     public static int y = 12;
+
     public static void StoreAlien(Alien alien)
     {
         Debug.WriteLine("C'est dans la db que je mets " + alien.ToString());
     }
 
+    /// <summary>
+    /// On affiche sélectionnent les données voulu et on affiche les 5 meilleur joueurs 
+    /// </summary>
     public static void StoreData()
     {
         // Connexion à la base de données
@@ -44,8 +48,6 @@ public class Store
                         int points = select.GetInt32("jouNombrePoints");
 
                         //Affichage des scores des 5 meilleurs joueurs
-
-                        
                         Console.SetCursorPosition(Console.WindowWidth / 3 + 8, y);
                         Console.WriteLine($"Nom: {nom}, Points: {points}");
 
@@ -58,6 +60,9 @@ public class Store
         }
     }
 
+    /// <summary>
+    /// On stock le score du joueur et son pseudo dans la base de données
+    /// </summary>
     public static void SaveScore()
         {
         Console.SetCursorPosition(Console.WindowWidth / 3 + 14, 23);
