@@ -12,11 +12,13 @@ public class Store
     // Stocke le score du joueur
     public static int score = 0;
     // Permet de se connecter au serveur
-    public static string connexionDb = "Server=localhost;Port=8888;Database=db_space_invaders;User=root;Password=root;";
+    public static string connexionDb = "Server=localhost;Port=6033;Database=db_space_invaders;User=root;Password=root;";
     // Requêtes pour sélectionner les meilleurs joueurs
     public static string sqlQuery = "SELECT * FROM t_joueur ORDER BY jouNombrePoints DESC LIMIT 5;";
     // Requêtes pour insert le score du joueur
-    public static string insertQuery = "INSERT INTO t_joueur (jouNom, jouNombrePoints) VALUES (@pseudo, @score)";
+    public static string insertQuery = "INSERT INTO t_joueur (jouPseudo, jouNombrePoints) VALUES (@pseudo, @score)";
+    // Position y de l'affichage des joueurs
+    public static int y = 12;
     public static void StoreAlien(Alien alien)
     {
         Debug.WriteLine("C'est dans la db que je mets " + alien.ToString());
@@ -37,15 +39,22 @@ public class Store
                 {
                     while (select.Read())
                     {
-                        int id = select.GetInt32("jouID");
-                        string nom = select.GetString("jouNom");
+                        int id = select.GetInt32("idJoueur");
+                        string nom = select.GetString("jouPseudo");
                         int points = select.GetInt32("jouNombrePoints");
 
                         //Affichage des scores des 5 meilleurs joueurs
-                        Console.WriteLine($"ID: {id}, Nom: {nom}, Points: {points}");
+
+                        
+                        Console.SetCursorPosition(Console.WindowWidth / 3 + 8, y);
+                        Console.WriteLine($"Nom: {nom}, Points: {points}");
+
+                        y += 1;
                     }
                 }
             }
+
+            connexion.Close();
         }
     }
 
@@ -75,7 +84,9 @@ public class Store
                     //Affichage message de réussite 
                     Console.SetCursorPosition(Console.WindowWidth / 3 + 8, 20);
                     Console.WriteLine($"Score de {score} sauvegardé pour {pseudo}.");
+
                     }
+                     connexion.Close();
                 }
             }
 

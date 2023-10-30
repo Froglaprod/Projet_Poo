@@ -72,6 +72,12 @@ do
             break;
         }
 
+        if (SelectScore)
+        {
+            Playground.Clear();
+            break;
+        }
+
         ConsoleKeyInfo keyPressed = Console.ReadKey(true);
 
         switch (keyPressed.Key)
@@ -109,8 +115,13 @@ do
 
     while (SelectScore)
     {
-        Playground.Clear();
+        MenuScore.DrawScore();
         Store.StoreData();
+
+        while (true)
+        {
+
+        }
     }
 
     // Affichage du décompte
@@ -507,7 +518,7 @@ do
             Playground.Clear();
             Playground.DrawScore(Store.score);
 
-            
+
 
             switch (keyPressed.Key)
             {
