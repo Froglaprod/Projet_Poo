@@ -1,4 +1,9 @@
-﻿using Display;
+﻿///ETML
+///Auteur : Mathis Botteau
+///Date   : 28.08.2023
+///Description : Le but de ce projet est de creer un jeux qui est inspiré du celebre jeu space invader
+///
+using Display;
 using Model;
 
 
@@ -199,7 +204,7 @@ do// Boucle qui englobe tout le programme
                 Playground.DrawHP(coeur); // Affichage des hps (coeurs)
             }
 
-            Playground.DrawScore(Store.score);
+            Playground.DrawScore(Store.intscore);
             Playground.DrawManche(manche);
 
             foreach (Alien invader in aliensDefault)
@@ -310,7 +315,7 @@ do// Boucle qui englobe tout le programme
             if (!invader.AlienisAlife && !invader.BoomNotArrived)
             {
                 aliensDefault.RemoveAt(i);
-                Store.score += 23;
+                Store.intscore += 23;
             }
 
             if (aliensDefault.Count == 0) // Savoir si le joueur gagne la partie
@@ -414,7 +419,7 @@ do// Boucle qui englobe tout le programme
             ConsoleKeyInfo keyPressed = Console.ReadKey(true);
 
             Playground.Clear();
-            Playground.DrawScore(Store.score);
+            Playground.DrawScore(Store.intscore);
 
 
 
@@ -501,7 +506,7 @@ do// Boucle qui englobe tout le programme
                 coeurdefault.Clear();
                 player = new Player(Console.WindowWidth / 2 - 5, Console.WindowHeight - 5, 150);
                 boss1 = null;
-                Store.score = 0;
+                Store.intscore = 0;
                 SelectJouer = false;
                 GameLooseEND = false;
                 GameWinEND = false;
@@ -517,7 +522,7 @@ do// Boucle qui englobe tout le programme
             ConsoleKeyInfo keyPressed = Console.ReadKey(true);
 
             Playground.Clear();
-            Playground.DrawScore(Store.score);
+            Playground.DrawScore(Store.intscore);
 
 
 
@@ -604,7 +609,7 @@ do// Boucle qui englobe tout le programme
                 coeurdefault.Clear();
                 player = new Player(Console.WindowWidth / 2 - 5, Console.WindowHeight - 5, 150);
                 boss1 = null;
-                Store.score = 0;
+                Store.intscore = 0;
                 SelectJouer = false;
                 GameLooseEND = false;
                 GameWinEND = false;

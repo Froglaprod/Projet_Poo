@@ -1,4 +1,9 @@
-﻿using System.Reflection;
+﻿///ETML
+///Auteur : Mathis Botteau
+///Date   : 28.08.2023
+///Description : Le but de ce projet est de creer un jeux qui est inspiré du celebre jeu space invader
+///
+using System.Reflection;
 
 namespace Model
 {

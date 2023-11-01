@@ -1,17 +1,22 @@
-﻿using MySql.Data.MySqlClient;
+﻿///ETML
+///Auteur : Mathis Botteau
+///Date   : 28.08.2023
+///Description : Le but de ce projet est de creer un jeux qui est inspiré du celebre jeu space invader
+///
+using MySql.Data.MySqlClient;
 
 public class Store
 {
     // Stocke le score du joueur
-    public static int score = 0;
+    public static int intscore = 0;
     // Position y de l'affichage des joueurs
-    public static int y = 12;
+    public static int inty = 12;
     // Permet de se connecter au serveur
-    public static string connexionDb = "Server=localhost;Port=6033;Database=db_space_invaders;User=root;Password=root;";
+    public static string strconnexionDb = "Server=localhost;Port=6033;Database=db_space_invaders;User=root;Password=root;";
     // Requêtes pour sélectionner les meilleurs joueurs
-    public static string sqlQuery = "SELECT * FROM t_joueur ORDER BY jouNombrePoints DESC LIMIT 5;";
+    public static string strsqlQuery = "SELECT * FROM t_joueur ORDER BY jouNombrePoints DESC LIMIT 5;";
     // Requêtes pour insert le score du joueur
-    public static string insertQuery = "INSERT INTO t_joueur (jouPseudo, jouNombrePoints) VALUES (@pseudo, @score)";
+    public static string strinsertQuery = "INSERT INTO t_joueur (jouPseudo, jouNombrePoints) VALUES (@pseudo, @score)";
 
 
     /// <summary>
@@ -20,13 +25,13 @@ public class Store
     public static void StoreData()
     {
         // Utilise l'instruction using MySqlConnection, pour se connecter à la db
-        using (MySqlConnection connexion = new MySqlConnection(connexionDb))
+        using (MySqlConnection connexion = new MySqlConnection(strconnexionDb))
         {
             //Ouverture de la connexion
             connexion.Open();
 
             // Utilise l'instruction using MySqlCommand, pour éxecuter des commandes
-            using (MySqlCommand cmd = new MySqlCommand(sqlQuery, connexion))
+            using (MySqlCommand cmd = new MySqlCommand(strsqlQuery, connexion))
             {
 
                 using (MySqlDataReader select = cmd.ExecuteReader())
@@ -39,10 +44,10 @@ public class Store
                         int points = select.GetInt32("jouNombrePoints");
 
                         //Affichage des scores des 5 meilleurs joueurs
-                        Console.SetCursorPosition(Console.WindowWidth / 3 + 8, y);
+                        Console.SetCursorPosition(Console.WindowWidth / 3 + 8, inty);
                         Console.WriteLine($"Nom: {nom}, Points: {points}");
 
-                        y += 1;
+                        inty += 1;
                     }
                 }
             }
@@ -59,30 +64,30 @@ public class Store
     {
         Console.SetCursorPosition(Console.WindowWidth / 3 + 14, 23);
         // Pseudo que le joueur entre
-        string pseudo = Console.ReadLine();
+        string strpseudo = Console.ReadLine();
 
         // On regarde si le pseudo est vide
-        if (!string.IsNullOrEmpty(pseudo))
+        if (!string.IsNullOrEmpty(strpseudo))
         {
 
             // Utilise l'instruction using MySqlConnection, pour se connecter à la db
-            using (MySqlConnection connexion = new MySqlConnection(connexionDb))
+            using (MySqlConnection connexion = new MySqlConnection(strconnexionDb))
             {
                 //Ouverture de la connexion
                 connexion.Open();
 
                 // Utilise l'instruction using MySqlCommand, pour éxecuter des commandes 
-                using (MySqlCommand cmd = new MySqlCommand(insertQuery, connexion))
+                using (MySqlCommand cmd = new MySqlCommand(strinsertQuery, connexion))
                 {
                     //Insert du score et du pseudo dans la base de données
-                    cmd.Parameters.AddWithValue("@pseudo", pseudo);
-                    cmd.Parameters.AddWithValue("@score", score);
+                    cmd.Parameters.AddWithValue("@pseudo", strpseudo);
+                    cmd.Parameters.AddWithValue("@score", intscore);
 
                     cmd.ExecuteNonQuery();
 
                     //Affichage message de réussite 
                     Console.SetCursorPosition(Console.WindowWidth / 3 + 8, 20);
-                    Console.WriteLine($"Score de {score} sauvegardé pour {pseudo}.");
+                    Console.WriteLine($"Score de {intscore} sauvegardé pour {strpseudo}.");
 
                 }
                 //Fermeture de la connexion
