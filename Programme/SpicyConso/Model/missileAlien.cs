@@ -34,7 +34,7 @@ namespace Model
 
                 this.y++;
 
-                if (this.y == Console.WindowHeight - 5)// Quand il dépasse la bordure il s'enlève
+                if (this.y == Alien.width - 5)// Quand il dépasse la bordure il s'enlève
                 {
                     missileIsLaunched = false;
                 }

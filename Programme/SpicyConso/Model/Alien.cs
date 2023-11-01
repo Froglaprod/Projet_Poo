@@ -10,6 +10,8 @@ namespace Model
     public class Alien
     {
         List<missileAlien> missileAlien = new List<missileAlien>();
+        //Largeur de la fenetre
+        public const int width = 150;
         //Position x de l'invader
         public int x;
         //Position y de l'invader
@@ -44,7 +46,7 @@ namespace Model
             {
                 this.x += 1;
 
-                if (this.x == Console.WindowWidth - 13)
+                if (this.x == width - 13)
                 {
                     this.y += 4;
                     invaderDirection = false;
