@@ -14,6 +14,8 @@ namespace Model
     public class missileAlien : Missile
     {
 
+        public int height = 40;
+
         /// <summary>
         /// Constructor du missile avec ces valeurs par défault
         /// </summary>
@@ -34,7 +36,7 @@ namespace Model
 
                 this.y++;
 
-                if (this.y == Alien.width - 5)// Quand il dépasse la bordure il s'enlève
+                if (this.y == height - 5)// Quand il dépasse la bordure il s'enlève
                 {
                     missileIsLaunched = false;
                 }
