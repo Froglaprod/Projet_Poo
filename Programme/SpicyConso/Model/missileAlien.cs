@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 
 namespace Model
 {
+    /// <summary>
+    /// La classe Missile alien contient les caratéristques de bases du missile alien et les actions qu'il peut effectuer
+    /// </summary>
     public class missileAlien : Missile
     {
 

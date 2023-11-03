@@ -5,6 +5,9 @@
 ///
 namespace Model
 {
+    /// <summary>
+    /// La classe Player contient les caratéristques de bases du joeur et contient les actions qu'il peut effectuer
+    /// </summary>
     public class Player
     {
         List<missileJoueur> missileJoueur = new List<missileJoueur>();

@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 
 namespace Model
 {
+    /// <summary>
+    /// La classe Hpcoeur contient la position qui va etre utiliser pour l'affichage des coeurs dans le jeu
+    /// </summary>
     public class Hpcoeur1
     {
         //Position x de l'hp

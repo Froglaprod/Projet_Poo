@@ -7,6 +7,9 @@ using System.Reflection;
 
 namespace Model
 {
+    /// <summary>
+    /// La classe Alien contient les caratéristques de bases de l'alien et contient les actions qu'il peut effectuer
+    /// </summary>
     public class Alien
     {
         List<missileAlien> missileAlien = new List<missileAlien>();

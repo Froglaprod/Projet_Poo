@@ -7,6 +7,9 @@ using System.Reflection;
 
 namespace Model
 {
+    /// <summary>
+    /// La classe Missile contient les caratéristques de bases qui vont etre hériter aux classes missile alien et missile joueur
+    /// </summary>
     public class Missile
     {
         //Dégat du missile

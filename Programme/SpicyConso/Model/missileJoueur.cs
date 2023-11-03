@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace Model
 {
+    /// <summary>
+    /// La classe Missile joueur contient les caratéristques de bases du missile joueur et les actions qu'il peut effectuer
+    /// </summary>
     public class missileJoueur : Missile
     {  //Connaitre si le missile a toucher l'alien
         public bool missileIsTouched = false;
