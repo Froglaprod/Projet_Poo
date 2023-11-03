@@ -4,14 +4,16 @@
 ///Description : Le but de ce projet est de creer un jeux qui est inspiré du celebre jeu space invader
 ///
 using MySql.Data.MySqlClient;
-
+/// <summary>
+/// La classe store permet de se connecter à notre db et d'y faire des requetes, il faut seulement changer le port corrspondant
+/// </summary>
 public class Store
 {
     // Stocke le score du joueur
     public static int intscore = 0;
     // Position y de l'affichage des joueurs
     public static int inty = 12;
-    // Permet de se connecter au serveur
+    // Permet de se connecter au serveur (changer le port en fonction)
     public static string strconnexionDb = "Server=localhost;Port=6033;Database=db_space_invaders;User=root;Password=root;";
     // Requêtes pour sélectionner les meilleurs joueurs
     public static string strsqlQuery = "SELECT * FROM t_joueur ORDER BY jouNombrePoints DESC LIMIT 5;";
